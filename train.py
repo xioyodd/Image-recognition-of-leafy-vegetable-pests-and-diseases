@@ -132,13 +132,13 @@ def main():
             best_acc = val_accurate
             torch.save(net.state_dict(), save_path)
 
-        if epoch % 5 == 0:
-            save_dir = os.path.join('./model/' +
-                                    str(epoch))
-            if os.path.exists(save_dir):
-                raise NameError('model dir exists!')
-            os.makedirs(save_dir)
-            torch.save(net.state_dict(), os.path.join(save_dir, 'resNet50.pth'))
+        # if epoch % 5 == 0:
+        #     save_dir = os.path.join('./model/' +
+        #                             str(epoch))
+        #     if os.path.exists(save_dir):
+        #         raise NameError('model dir exists!')
+        #     os.makedirs(save_dir)
+        #     torch.save(net.state_dict(), os.path.join(save_dir, 'resNet50.pth'))
 
 
     _print('Finished Training')
