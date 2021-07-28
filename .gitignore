@@ -147,3 +147,4 @@ cython_debug/
 /resNet34.pth
 /resnet50-pre.pth
 /resNet50.pth
+/tree.txt

@@ -33,13 +33,13 @@ def main():
     data_root = os.getcwd()  # get data root path
 
 
-    image_path = os.path.join(data_root, 'data')  # flower data set path
+    image_path = os.path.join(data_root, 'data')
     assert os.path.exists(image_path), "{} path does not exist.".format(image_path)
     train_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train"),
                                          transform=data_transform["train"])
     train_num = len(train_dataset)
 
-    # {'daisy':0, 'dandelion':1, 'roses':2, 'sunflower':3, 'tulips':4}
+
     flower_list = train_dataset.class_to_idx
     cla_dict = dict((val, key) for key, val in flower_list.items())
     # write dict into json file
@@ -67,7 +67,6 @@ def main():
 
     net = resnet50()
     # load pretrain weights
-    # download url: https://download.pytorch.org/models/resnet34-333f7ec4.pth
     model_weight_path = "./resnet50-pre.pth"
     assert os.path.exists(model_weight_path), "file {} does not exist.".format(model_weight_path)
     net.load_state_dict(torch.load(model_weight_path, map_location=device))
@@ -134,7 +133,7 @@ def main():
             torch.save(net.state_dict(), save_path)
 
         if epoch % 5 == 0:
-            save_dir = os.path.join('./model2/' +
+            save_dir = os.path.join('./model/' +
                                     str(epoch))
             if os.path.exists(save_dir):
                 raise NameError('model dir exists!')

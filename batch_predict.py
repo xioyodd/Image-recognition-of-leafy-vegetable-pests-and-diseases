@@ -23,7 +23,6 @@ def main():
     img_path_list = os.listdir(test_path)
 
     print(img_path_list)
-    # img_path_list = ["../tulip.jpg", "../rose.jpg"]
     img_list = []
     for img_path in img_path_list:
         img_path = os.path.join(test_path, img_path)
@@ -47,7 +46,7 @@ def main():
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(data_root, 'model2', '30', 'resNet50.pth')
+    weights_path = os.path.join(data_root, 'model', '30', 'resNet50.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
