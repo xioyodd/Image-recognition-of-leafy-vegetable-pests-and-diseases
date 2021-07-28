@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/resnet.iml" filepath="$PROJECT_DIR$/.idea/resnet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Image-recognition-of-leafy-vegetable-pests-and-diseases.iml" filepath="$PROJECT_DIR$/.idea/Image-recognition-of-leafy-vegetable-pests-and-diseases.iml" />
     </modules>
   </component>
 </project>

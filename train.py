@@ -1,6 +1,8 @@
 import os
 import json
 from datetime import datetime
+from shutil import copyfile
+from config import *
 
 import torch
 import torch.nn as nn
@@ -11,7 +13,16 @@ from tqdm import tqdm
 from model import resnet50
 import logging
 
+
 def main():
+    save_dir = os.path.join(SAVE_DIR, 'resnet50' + '_' +
+                            datetime.now().strftime('%Y%m%d_%H%M%S'))
+    if os.path.exists(save_dir):
+        raise NameError('model dir exists!')
+    os.makedirs(save_dir)
+    copyfile('./train.py', save_dir + '/train.py')
+    copyfile('model.py', save_dir + '/model.py')
+    copyfile('config.py', save_dir + '/config.py')
 
     # 通过下面的方式进行简单配置输出方式与日志级别
     logging.basicConfig(filename='logger.log', level=logging.INFO)
@@ -30,15 +41,11 @@ def main():
                                    transforms.ToTensor(),
                                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])}
 
-    data_root = os.getcwd()  # get data root path
-
-
-    image_path = os.path.join(data_root, 'data')
+    image_path = DATA_DIR
     assert os.path.exists(image_path), "{} path does not exist.".format(image_path)
     train_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train"),
                                          transform=data_transform["train"])
     train_num = len(train_dataset)
-
 
     flower_list = train_dataset.class_to_idx
     cla_dict = dict((val, key) for key, val in flower_list.items())
@@ -47,7 +54,7 @@ def main():
     with open('class_indices.json', 'w') as json_file:
         json_file.write(json_str)
 
-    batch_size = 32
+    batch_size = BATCH_SIZE
     nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers
     _print('Using {} dataloader workers every process'.format(nw))
 
@@ -63,7 +70,7 @@ def main():
                                                   num_workers=nw)
 
     _print("using {} images for training, {} images for validation.".format(train_num,
-                                                                           val_num))
+                                                                            val_num))
 
     net = resnet50()
     # load pretrain weights
@@ -85,7 +92,7 @@ def main():
     params = [p for p in net.parameters() if p.requires_grad]
     optimizer = optim.Adam(params, lr=0.0001)
 
-    epochs = 2
+    epochs = EPOCH
     best_acc = 0.0
     save_path = './resNet50.pth'
     train_steps = len(train_loader)
@@ -126,20 +133,16 @@ def main():
 
         val_accurate = acc / val_num
         _print('[epoch %d] train_loss: %.3f  val_accuracy: %.3f' %
-              (epoch + 1, running_loss / train_steps, val_accurate))
+               (epoch + 1, running_loss / train_steps, val_accurate))
+
+        # save
 
         if val_accurate > best_acc:
             best_acc = val_accurate
-            torch.save(net.state_dict(), save_path)
-
-        # if epoch % 5 == 0:
-        #     save_dir = os.path.join('./model/' +
-        #                             str(epoch))
-        #     if os.path.exists(save_dir):
-        #         raise NameError('model dir exists!')
-        #     os.makedirs(save_dir)
-        #     torch.save(net.state_dict(), os.path.join(save_dir, 'resNet50.pth'))
-
+            # torch.save(net.state_dict(), os.path.join(save_dir, 'best' + str(epoch+1) + '.pth'))
+            torch.save(net.state_dict(), os.path.join(save_dir, 'best.pth'))
+        if epoch+1 % 5 == 0:
+            torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch+1) + '.pth'))
 
     _print('Finished Training')
 
