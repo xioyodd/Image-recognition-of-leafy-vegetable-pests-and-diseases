@@ -85,7 +85,7 @@ def main():
     params = [p for p in net.parameters() if p.requires_grad]
     optimizer = optim.Adam(params, lr=0.0001)
 
-    epochs = 60
+    epochs = 2
     best_acc = 0.0
     save_path = './resNet50.pth'
     train_steps = len(train_loader)

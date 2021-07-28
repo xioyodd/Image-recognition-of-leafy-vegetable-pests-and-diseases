@@ -67,7 +67,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(data_root, 'model2', '30', 'resnet50.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(data_root, 'model', '30', 'resnet50.csv'), index=False, sep=',')
 
 if __name__ == '__main__':
     main()
