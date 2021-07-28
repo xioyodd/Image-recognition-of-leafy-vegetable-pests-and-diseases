@@ -38,3 +38,9 @@
 train.py for training
 
 batch_predict.py for result
+
+
+## Links
+
+[git教程](https://www.liaoxuefeng.com/wiki/896043488029600/900375748016320)
+
