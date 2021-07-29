@@ -15,8 +15,7 @@ import logging
 
 
 def main():
-    save_dir = os.path.join(SAVE_DIR, 'resnet50' + '_' +
-                            datetime.now().strftime('%Y%m%d_%H%M%S'))
+    save_dir = os.path.join(SAVE_DIR, 'resnet50' + '_' + 'epoch'+ str(EPOCH) + '_' + datetime.now().strftime('%Y%m%d_%H%M%S'))
     if os.path.exists(save_dir):
         raise NameError('model dir exists!')
     os.makedirs(save_dir)
@@ -25,7 +24,14 @@ def main():
     copyfile('config.py', save_dir + '/config.py')
 
     # 通过下面的方式进行简单配置输出方式与日志级别
-    logging.basicConfig(filename='logger.log', level=logging.INFO)
+    logging.basicConfig(format='%(asctime)s %(message)s',
+                        datefmt='%Y%m%d-%H:%M:%S',
+                        filename=os.path.join(save_dir, 'logger.log'),
+                        level=logging.INFO,
+                        filemode='w')
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    logging.getLogger('').addHandler(console)
     _print = logging.info
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -141,8 +147,8 @@ def main():
             best_acc = val_accurate
             # torch.save(net.state_dict(), os.path.join(save_dir, 'best' + str(epoch+1) + '.pth'))
             torch.save(net.state_dict(), os.path.join(save_dir, 'best.pth'))
-        if epoch+1 % 5 == 0:
-            torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch+1) + '.pth'))
+        if (epoch + 1) % 10 == 0:
+            torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch + 1) + '.pth'))
 
     _print('Finished Training')
 

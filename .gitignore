@@ -143,8 +143,8 @@ cython_debug/
 /result/*
 /data/*
 /tmp.py
+/tree.txt
 /resnet34-pre.pth
 /resNet34.pth
 /resnet50-pre.pth
 /resNet50.pth
-/tree.txt

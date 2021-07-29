@@ -4,8 +4,8 @@ WORKSPACE = os.getcwd()
 SAVE_DIR = './model/'
 DATA_DIR = './data/'
 BATCH_SIZE = 32
-EPOCH = 10
-
+EPOCH = 70
+SEED = 2021
 
 
 
@@ -21,5 +21,5 @@ RESUME = ''
 MIXUP = 0.
 
 
-SEED = 666
+
 
