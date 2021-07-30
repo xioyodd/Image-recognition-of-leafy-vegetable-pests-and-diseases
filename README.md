@@ -63,6 +63,8 @@
 ├── class_indices.json
 ├── main.py
 ├── resnet50-pre.pth
+├── crawler2.py 			#爬取数据
+├── resnet50-pre.pth
 └── ...
 ```
 
@@ -75,6 +77,8 @@
 train.py for training
 
 batch_predict.py for result
+
+crawler2.py 用来 爬取百度图片, 使用时修改结尾几行
 
 
 ## Links
