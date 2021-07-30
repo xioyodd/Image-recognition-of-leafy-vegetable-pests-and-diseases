@@ -2,6 +2,22 @@
 
 
 
+## 数据搜集:
+
+
+
+> PRCV2019
+>
+> 1、各参赛队在赛前需签订数据使用协议，承诺本竞赛提供的数据集仅能用于本竞赛，不用于除本竞赛外的任何其他用途，并承诺数据用后即刻删除，不可扩散，主办方保留追究法律责任的权利。
+
+
+
+
+
+
+
+
+
 ## Todo list(计划, 待补充)
 
 - [x] baseline搭建
@@ -16,6 +32,8 @@
 - [ ] 训练策略改进
   - [ ] k折交叉验证
   - [ ] 动态学习率
+- [ ] 其他
+  - [ ] 算法可复现
 
 ## Structre
 
@@ -66,6 +84,10 @@ batch_predict.py for result
 [腾讯文档](https://docs.qq.com/doc/DQ1FrUGFJeUxaTlhq)
 
 [git/github教程1](https://www.liaoxuefeng.com/wiki/896043488029600/900375748016320)
+
+[git-cheat-sheet](https://github.com/flyhigher139/Git-Cheat-Sheet)
+
+[github-cheat-sheet](https://github.com/tiimgreen/github-cheat-sheet)
 
 [pytorch官网](https://pytorch.org/)
 
