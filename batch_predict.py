@@ -46,7 +46,7 @@ def main():
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(SAVE_DIR, 'resnet50_20210728_161806', 'best.pth')
+    weights_path = os.path.join(SAVE_DIR, 'resnet50_epoch70_20210731_174506', 'best.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
@@ -67,7 +67,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_20210728_161806', 'best.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_epoch70_20210731_174506', 'best.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':
