@@ -38,9 +38,9 @@ def main():
     _print("using {} device.".format(device))
 
     data_transform = {
-        "train": transforms.Compose([transforms.RandomResizedCrop(224),
-                                     transforms.RandomHorizontalFlip(),
-                                     transforms.ToTensor(),
+        "train": transforms.Compose([transforms.RandomResizedCrop(224),# 将给定图像随机裁剪为不同的大小和宽高比，然后缩放所裁剪得到的图像为制定的大小224*224
+                                     transforms.RandomHorizontalFlip(),#以给定的概率随机水平旋转给定的PIL的图像，默认为0.5
+                                     transforms.ToTensor(),#将给定图像转为Tensor
                                      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
         "val": transforms.Compose([transforms.Resize(256),
                                    transforms.CenterCrop(224),
@@ -80,9 +80,9 @@ def main():
 
     net = resnet50()
     # load pretrain weights
-    model_weight_path = "./resnet50-pre.pth"
+    model_weight_path = "./resnet50-pre.pth"  #官方预训练的权重
     assert os.path.exists(model_weight_path), "file {} does not exist.".format(model_weight_path)
-    net.load_state_dict(torch.load(model_weight_path, map_location=device))
+    net.load_state_dict(torch.load(model_weight_path, map_location=device)) #将权重加载到net中
     # for param in net.parameters():
     #     param.requires_grad = False
 
