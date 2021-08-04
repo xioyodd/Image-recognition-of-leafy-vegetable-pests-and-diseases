@@ -1,9 +1,11 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"]='1'
 import json
 from datetime import datetime
 from shutil import copyfile
 from config import *
 
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -12,7 +14,6 @@ from tqdm import tqdm
 
 from model import resnet50
 import logging
-
 
 def main():
     save_dir = os.path.join(SAVE_DIR, 'resnet50' + '_' + 'epoch'+ str(EPOCH) + '_' + datetime.now().strftime('%Y%m%d_%H%M%S'))
@@ -51,6 +52,7 @@ def main():
     assert os.path.exists(image_path), "{} path does not exist.".format(image_path)
     train_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train"),
                                          transform=data_transform["train"])
+
     train_num = len(train_dataset)
 
     flower_list = train_dataset.class_to_idx
@@ -98,12 +100,16 @@ def main():
     params = [p for p in net.parameters() if p.requires_grad]
     optimizer = optim.Adam(params, lr=0.0001)
 
+    elist=[]
+    loss_list=[]
+    acc_list=[]
     epochs = EPOCH
     best_acc = 0.0
     save_path = './resNet50.pth'
     train_steps = len(train_loader)
     for epoch in range(epochs):
         # train
+        elist.append(epoch)
         net.train()
         running_loss = 0.0
         train_bar = tqdm(train_loader)
@@ -121,7 +127,6 @@ def main():
             train_bar.desc = "train epoch[{}/{}] loss:{:.3f}".format(epoch + 1,
                                                                      epochs,
                                                                      loss)
-
         # validate
         net.eval()
         acc = 0.0  # accumulate accurate number / epoch
@@ -140,7 +145,8 @@ def main():
         val_accurate = acc / val_num
         _print('[epoch %d] train_loss: %.3f  val_accuracy: %.3f' %
                (epoch + 1, running_loss / train_steps, val_accurate))
-
+        loss_list.append(running_loss / train_steps)
+        acc_list.append(val_accurate)
         # save
 
         if val_accurate > best_acc:
@@ -152,6 +158,13 @@ def main():
 
     _print('Finished Training')
 
+    plt.title("TrainInfo")
+    plt.plot(elist,loss_list,color="red",label="train_loss")
+    plt.plot(elist, acc_list, color="blue", label="val_accuracy")
+    plt.legend()
+    plt.xlabel("epoch")
+    plt.savefig(os.path.join(save_dir, 'trainInfo'))
+    plt.show()
 
 if __name__ == '__main__':
     main()
