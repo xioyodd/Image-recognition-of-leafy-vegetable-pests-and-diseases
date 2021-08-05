@@ -108,6 +108,7 @@ def main():
     best_acc = 0.0
     save_path = './resNet50.pth'
     train_steps = len(train_loader)
+
     for epoch in range(epochs):
         # train
         elist.append(epoch)
