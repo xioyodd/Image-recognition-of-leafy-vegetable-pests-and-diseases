@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 from shutil import copyfile
 from config import *
+from mixup import *
 
 import matplotlib.pyplot as plt
 import torch
@@ -113,11 +114,12 @@ def main():
         net.train()
         running_loss = 0.0
         train_bar = tqdm(train_loader)
-        for step, data in enumerate(train_bar):
-            images, labels = data
+        for step, (inputs, targets) in enumerate(train_bar):
+            inputs,targets=inputs.cuda(),targets.cuda()
+            inputs,targets_a,targets_b,lam=criterion(inputs,targets,0.5,USE_MIXUP)
+            outputs=net(inputs)
+            loss=mixup_criterion(loss_function,outputs,targets_a,targets_b,lam)
             optimizer.zero_grad()
-            logits = net(images.to(device))
-            loss = loss_function(logits, labels.to(device))
             loss.backward()
             optimizer.step()
 
@@ -127,6 +129,7 @@ def main():
             train_bar.desc = "train epoch[{}/{}] loss:{:.3f}".format(epoch + 1,
                                                                      epochs,
                                                                      loss)
+
         # validate
         net.eval()
         acc = 0.0  # accumulate accurate number / epoch
