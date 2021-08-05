@@ -114,12 +114,19 @@ def main():
         net.train()
         running_loss = 0.0
         train_bar = tqdm(train_loader)
-        for step, (inputs, targets) in enumerate(train_bar):
-            inputs,targets=inputs.cuda(),targets.cuda()
-            inputs,targets_a,targets_b,lam=criterion(inputs,targets,0.5,USE_MIXUP)
-            outputs=net(inputs)
-            loss=mixup_criterion(loss_function,outputs,targets_a,targets_b,lam)
+        # for step, (inputs, targets) in enumerate(train_bar):
+        #     inputs,targets=inputs.cuda(),targets.cuda()
+        #     inputs,targets_a,targets_b,lam=criterion(inputs,targets,0.5,USE_MIXUP)
+        #     outputs=net(inputs)
+        #     loss=mixup_criterion(loss_function,outputs,targets_a,targets_b,lam)
+        #     optimizer.zero_grad()
+        #     loss.backward()
+        #     optimizer.step()
+        for step,data in enumerate(train_bar):
+            images,labels=data
             optimizer.zero_grad()
+            logits=net(images.to(device))
+            loss=loss_function(logits,labels.to(device))
             loss.backward()
             optimizer.step()
 
