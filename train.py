@@ -40,7 +40,8 @@ def main():
     _print("using {} device.".format(device))
 
     data_transform = {
-        "train": transforms.Compose([transforms.RandomResizedCrop(224),# 将给定图像随机裁剪为不同的大小和宽高比，然后缩放所裁剪得到的图像为制定的大小224*224
+        "train": transforms.Compose([transforms.Resize(256),
+                                     transforms.RandomResizedCrop(224),# 将给定图像随机裁剪为不同的大小和宽高比，然后缩放所裁剪得到的图像为制定的大小224*224
                                      transforms.RandomHorizontalFlip(),#以给定的概率随机水平旋转给定的PIL的图像，默认为0.5
                                      transforms.ToTensor(),#将给定图像转为Tensor
                                      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),

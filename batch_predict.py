@@ -13,11 +13,10 @@ import pandas as pd
 def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    data_transform = transforms.Compose(
-        [transforms.Resize(256),
-         transforms.CenterCrop(224),
-         transforms.ToTensor(),
-         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    data_transform = transforms.Compose([transforms.Resize(256),
+                                        transforms.CenterCrop(224),
+                                        transforms.ToTensor(),
+                                        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
     # load image
     test_path = os.path.join(DATA_DIR, 'test')
@@ -47,7 +46,7 @@ def main():
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(SAVE_DIR, 'resnet50_epoch100_20210805_162646', 'epoch60.pth')
+    weights_path = os.path.join(SAVE_DIR, 'resnet50_epoch100_20210806_190942', 'epoch30.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
@@ -68,7 +67,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_epoch100_20210805_162646', 'epoch60.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_epoch100_20210806_190942', 'epoch30.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':
