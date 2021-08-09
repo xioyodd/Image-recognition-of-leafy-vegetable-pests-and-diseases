@@ -40,7 +40,7 @@ def main():
     _print("using {} device.".format(device))
 
     data_transform = {
-        "train": transforms.Compose([transforms.Resize(256),
+        "train": transforms.Compose([#transforms.Resize(256),
                                      transforms.RandomResizedCrop(224),# 将给定图像随机裁剪为不同的大小和宽高比，然后缩放所裁剪得到的图像为制定的大小224*224
                                      transforms.RandomHorizontalFlip(),#以给定的概率随机水平旋转给定的PIL的图像，默认为0.5
                                      transforms.ToTensor(),#将给定图像转为Tensor
@@ -100,7 +100,7 @@ def main():
 
     # construct an optimizer
     params = [p for p in net.parameters() if p.requires_grad]
-    optimizer = optim.Adam(params, lr=0.0001)
+    optimizer = optim.Adam(params, lr=0.0001,weight_decay=1e-3)
 
     elist=[]
     loss_list=[]
@@ -171,8 +171,8 @@ def main():
     _print('Finished Training')
 
     plt.title("TrainInfo")
-    plt.plot(elist,loss_list,color="red",label="train_loss")
-    plt.plot(elist, acc_list, color="blue", label="val_accuracy")
+    plt.scatter(elist,loss_list,color="red",label="train_loss")
+    plt.scatter(elist, acc_list, color="blue", label="val_accuracy")
     plt.legend()
     plt.xlabel("epoch")
     plt.savefig(os.path.join(save_dir, 'trainInfo'))

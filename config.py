@@ -4,7 +4,7 @@ WORKSPACE = os.getcwd()
 SAVE_DIR = './model/'
 DATA_DIR = './data/'
 BATCH_SIZE = 32
-EPOCH = 100
+EPOCH = 70
 SEED = 2021
 
 

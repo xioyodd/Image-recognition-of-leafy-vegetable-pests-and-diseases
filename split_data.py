@@ -15,7 +15,7 @@ def main():
     random.seed(SEED)
 
     # 将数据集中10%的数据划分到验证集中
-    split_rate = 0.15
+    split_rate = 0.1
 
     # 数据根目录
     data_root = DATA_DIR
