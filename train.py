@@ -92,7 +92,7 @@ def main():
 
     # change fc layer structure
     in_channel = net.fc.in_features
-    net.fc = nn.Linear(in_channel, 3)
+    net.fc = nn.Linear(in_channel, 12)
     net.to(device)
 
     # define loss function
@@ -184,11 +184,9 @@ def main():
 
         if val_accurate > best_acc:
             best_acc = val_accurate
-            # torch.save(net.state_dict(), os.path.join(save_dir, 'best' + str(epoch+1) + '.pth'))
             torch.save(net.state_dict(), os.path.join(save_dir, 'best.pth'))
         if (epoch + 1) % 10 == 0:
             torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch + 1) + '.pth'))
-
 
     _print('Finished Training')
 
