@@ -100,11 +100,12 @@ def main():
 
     # construct an optimizer
     params = [p for p in net.parameters() if p.requires_grad]
-    optimizer = optim.Adam(params, lr=0.0001,weight_decay=1e-3)
+    optimizer = optim.Adam(params, lr=0.0001)
 
     elist=[]
+    acc_list = []
     loss_list=[]
-    acc_list=[]
+    train_acc=[]
     epochs = EPOCH
     best_acc = 0.0
     save_path = './resNet50.pth'
@@ -139,6 +140,27 @@ def main():
                                                                      epochs,
                                                                      loss)
 
+        # train-acc
+        net.eval()
+        acc0 = 0.0  # accumulate accurate number / epoch
+        with torch.no_grad():
+            acc_bar = tqdm(train_loader)
+            for acc_data in acc_bar:
+                acc_images,acc_labels = acc_data
+                outputs = net(acc_images.to(device))
+                # loss = loss_function(outputs, test_labels)
+                predict_y = torch.max(outputs, dim=1)[1]
+                acc0 += torch.eq(predict_y, acc_labels.to(device)).sum().item()
+
+                acc_bar.desc = "train_acc epoch[{}/{}]".format(epoch + 1,
+                                                           epochs)
+
+        train_accurate = acc0 / train_num
+        _print('[epoch %d] train_loss: %.3f  train_accurate: %.3f' %
+               (epoch + 1, running_loss / train_steps, train_accurate))
+        loss_list.append(running_loss / train_steps)
+        train_acc.append(train_accurate)
+
         # validate
         net.eval()
         acc = 0.0  # accumulate accurate number / epoch
@@ -157,7 +179,6 @@ def main():
         val_accurate = acc / val_num
         _print('[epoch %d] train_loss: %.3f  val_accuracy: %.3f' %
                (epoch + 1, running_loss / train_steps, val_accurate))
-        loss_list.append(running_loss / train_steps)
         acc_list.append(val_accurate)
         # save
 
@@ -168,11 +189,13 @@ def main():
         if (epoch + 1) % 10 == 0:
             torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch + 1) + '.pth'))
 
+
     _print('Finished Training')
 
     plt.title("TrainInfo")
-    plt.scatter(elist,loss_list,color="red",label="train_loss")
-    plt.scatter(elist, acc_list, color="blue", label="val_accuracy")
+    plt.plot(elist,loss_list,color="red",label="train_loss")
+    plt.plot(elist, acc_list, color="blue", label="val_accuracy")
+    plt.plot(elist,train_acc,color="green",label="train_accuracy")
     plt.legend()
     plt.xlabel("epoch")
     plt.savefig(os.path.join(save_dir, 'trainInfo'))
