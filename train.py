@@ -12,6 +12,10 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import transforms, datasets
 from tqdm import tqdm
+from torchsampler import ImbalancedDatasetSampler
+
+
+
 
 from model import resnet50
 import logging
@@ -69,7 +73,8 @@ def main():
     _print('Using {} dataloader workers every process'.format(nw))
 
     train_loader = torch.utils.data.DataLoader(train_dataset,
-                                               batch_size=batch_size, shuffle=True,
+                                               sampler=ImbalancedDatasetSampler(train_dataset),
+                                               batch_size=batch_size,
                                                num_workers=nw)
 
     validate_dataset = datasets.ImageFolder(root=os.path.join(image_path, "val"),
