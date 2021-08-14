@@ -6,7 +6,7 @@ import torch
 from PIL import Image
 from torchvision import transforms
 
-from model import resnet50
+from model import resnet50,resnet34
 import pandas as pd
 
 
@@ -19,8 +19,8 @@ def main():
                                         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
     # load image
-    test_path = os.path.join(DATA_DIR, 'test')
-    #test_path = os.path.join(DATA_DIR, '12')
+    #test_path = os.path.join(DATA_DIR, 'test')
+    test_path = os.path.join(DATA_DIR, '3')
     img_path_list = os.listdir(test_path)
 
     print(img_path_list)
@@ -43,11 +43,11 @@ def main():
     class_indict = json.load(json_file)
 
     # create model
-    model = resnet50(num_classes=3).to(device)
+    model = resnet34(num_classes=3).to(device)
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(SAVE_DIR, 'resnet50_epoch70_20210811_161157', 'epoch30.pth')
+    weights_path = os.path.join(SAVE_DIR, 'resnet50_epoch50_20210814_114356', 'epoch30.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
@@ -68,7 +68,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_epoch70_20210811_161157', '30.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_epoch50_20210814_114356', '3.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':

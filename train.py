@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from shutil import copyfile
 from config import *
-from mixup import *
+#from mixup import *
 
 import matplotlib.pyplot as plt
 import torch
@@ -17,7 +17,7 @@ from torchsampler import ImbalancedDatasetSampler
 
 
 
-from model import resnet50
+from model import resnet50,resnet34
 import logging
 
 def main():
@@ -74,7 +74,7 @@ def main():
 
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                sampler=ImbalancedDatasetSampler(train_dataset),
-                                               batch_size=batch_size,
+                                               batch_size=batch_size,#shuffle=True ,
                                                num_workers=nw)
 
     validate_dataset = datasets.ImageFolder(root=os.path.join(image_path, "val"),
@@ -87,9 +87,11 @@ def main():
     _print("using {} images for training, {} images for validation.".format(train_num,
                                                                             val_num))
 
-    net = resnet50()
+    #net = resnet50()
+    net = resnet34()
     # load pretrain weights
-    model_weight_path = "./resnet50-pre.pth"  #官方预训练的权重
+    #model_weight_path = "./resnet50-pre.pth"  #官方预训练的权重
+    model_weight_path = "./resnet34-pre.pth"  # 官方预训练的权重
     assert os.path.exists(model_weight_path), "file {} does not exist.".format(model_weight_path)
     net.load_state_dict(torch.load(model_weight_path, map_location=device)) #将权重加载到net中
     # for param in net.parameters():
@@ -97,7 +99,7 @@ def main():
 
     # change fc layer structure
     in_channel = net.fc.in_features
-    net.fc = nn.Linear(in_channel, 12)
+    net.fc = nn.Linear(in_channel, 3)
     net.to(device)
 
     # define loss function
@@ -166,7 +168,7 @@ def main():
         loss_list.append(running_loss / train_steps)
         train_acc.append(train_accurate)
 
-        # validate
+        #validate
         net.eval()
         acc = 0.0  # accumulate accurate number / epoch
         with torch.no_grad():
