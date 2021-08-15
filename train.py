@@ -1,4 +1,7 @@
 import os
+
+from torch.optim import lr_scheduler
+
 os.environ["CUDA_VISIBLE_DEVICES"]='1'
 import json
 from datetime import datetime
@@ -13,8 +16,6 @@ import torch.optim as optim
 from torchvision import transforms, datasets
 from tqdm import tqdm
 from torchsampler import ImbalancedDatasetSampler
-
-
 
 
 from model import resnet50,resnet34
@@ -107,7 +108,8 @@ def main():
 
     # construct an optimizer
     params = [p for p in net.parameters() if p.requires_grad]
-    optimizer = optim.Adam(params, lr=0.0001)
+    optimizer = optim.Adam(params, lr=0.00001)
+    #scheduler = lr_scheduler.StepLR(optimizer,step_size=10,gamma = 0.5)
 
     elist=[]
     acc_list = []
@@ -115,7 +117,6 @@ def main():
     train_acc=[]
     epochs = EPOCH
     best_acc = 0.0
-    save_path = './resNet50.pth'
     train_steps = len(train_loader)
 
     for epoch in range(epochs):
@@ -139,7 +140,7 @@ def main():
             loss=loss_function(logits,labels.to(device))
             loss.backward()
             optimizer.step()
-
+            #scheduler.step()
             # print statistics
             running_loss += loss.item()
 
