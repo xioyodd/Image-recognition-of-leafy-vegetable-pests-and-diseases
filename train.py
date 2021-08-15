@@ -73,8 +73,8 @@ def main():
     _print('Using {} dataloader workers every process'.format(nw))
 
     train_loader = torch.utils.data.DataLoader(train_dataset,
-                                               sampler=ImbalancedDatasetSampler(train_dataset),
-                                               batch_size=batch_size,#shuffle=True ,
+                                               #sampler=ImbalancedDatasetSampler(train_dataset),
+                                               batch_size=batch_size,shuffle=True ,
                                                num_workers=nw)
 
     validate_dataset = datasets.ImageFolder(root=os.path.join(image_path, "val"),
