@@ -149,3 +149,4 @@ cython_debug/
 /resnet50-pre.pth
 /resNet50.pth
 /*辣椒/
+/yolov5/
