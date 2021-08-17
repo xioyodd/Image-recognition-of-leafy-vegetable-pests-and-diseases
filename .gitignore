@@ -142,7 +142,7 @@ cython_debug/
 /model2/*
 /result/*
 /data/*
-/tmp.py
+/cam.py
 /tree.txt
 /resnet34-pre.pth
 /resNet34.pth

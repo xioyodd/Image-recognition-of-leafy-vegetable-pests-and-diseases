@@ -1,6 +1,6 @@
 import os
 import json
-from config import SAVE_DIR, DATA_DIR
+from config import *
 import torch
 from PIL import Image
 from torchvision import transforms
@@ -11,15 +11,15 @@ import pandas as pd
 
 def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
+    # device = torch.device("cpu")
     data_transform = transforms.Compose(
-        [transforms.Resize(256),
-         transforms.CenterCrop(224),
+        [transforms.Resize(RESIZE_SIZE),
+         transforms.CenterCrop(INPUT_SIZE),
          transforms.ToTensor(),
          transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
     # load image
-    test_path = os.path.join(DATA_DIR, 'test')
+    test_path = os.path.join(DATA_DIR, 'test-handcrop')
     img_path_list = os.listdir(test_path)
 
     print(img_path_list)
@@ -46,7 +46,7 @@ def main():
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(SAVE_DIR, 'resnet50_20210728_161806', 'best.pth')
+    weights_path = os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'best43.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
@@ -67,7 +67,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'resnet50_20210728_161806', 'best.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'best43.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':
