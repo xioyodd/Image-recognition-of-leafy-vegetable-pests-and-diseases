@@ -144,10 +144,7 @@ cython_debug/
 /data/
 /cam.py
 /tree.txt
-/resnet34-pre.pth
-/resNet34.pth
-/resnet50-pre.pth
-/resNet50.pth
+/*.pth
 /*辣椒/
 /yolov5/*.pt
 /yolov5/runs/
