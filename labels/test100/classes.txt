@@ -1,4 +1,0 @@
-root
-stem
-leaf
-fruit
