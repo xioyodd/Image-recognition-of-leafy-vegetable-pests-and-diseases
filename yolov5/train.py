@@ -602,5 +602,5 @@ if __name__ == "__main__":
     main(opt)
 
 
-    # python train.py --img 640 --batch 24 --epochs 60 --data data/leaf.yaml --weights yolov5s.pt
-    # python train.py --img 640 --batch 16 --epochs 60 --data data/leaf.yaml --weights yolov5m.pt
+    # python train.py --batch 24 --epochs 100 --data data/leaf.yaml --weights yolov5s.pt --name 'yolov5s_epoch100_batch24'
+    # python train.py --batch 24 --epochs 100 --data data/leaf.yaml --weights yolov5l.pt --name 'yolov5l_epoch100_batch24'

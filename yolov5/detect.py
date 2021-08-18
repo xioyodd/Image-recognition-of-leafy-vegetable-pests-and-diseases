@@ -235,9 +235,19 @@ def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
     run(**vars(opt))
 
+#
+# def run_detect(**kwargs):
+#     opt = parse_opt(True)
+#     for k, v in kwargs.items():
+#         setattr(opt, k, v)
+#     main(opt)
+
 
 if __name__ == "__main__":
     opt = parse_opt()
     main(opt)
 
-    # python detect.py --source ../data/test-detect/ --weights runs/train/exp3/weights/best.pt
+    # python detect.py --source '../data/detect/images/test300' --weights 'runs/train/yolov5s_epoch100_batch24/weights/best.pt' --name 'test300' --save-txt --save-crop
+    # python detect.py --source '../data/detect/images/1' --weights 'runs/train/yolov5s_epoch100_batch24/weights/best.pt' --name '1' --save-txt --save-crop
+    # python detect.py --source '../data/detect/images/2' --weights 'runs/train/exp3/weights/best.pt' --name '2' --save-txt --save-crop
+    # python detect.py --source '../data/detect/images/3' --weights 'runs/train/exp3/weights/best.pt' --name '3' --save-txt --save-crop
