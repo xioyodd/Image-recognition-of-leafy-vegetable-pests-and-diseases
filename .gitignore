@@ -138,10 +138,10 @@ dmypy.json
 cython_debug/
 
 # custom
-/model/*
-/model2/*
-/result/*
-/data/*
+/model/
+/model2/
+/result/
+/data/
 /cam.py
 /tree.txt
 /resnet34-pre.pth
@@ -149,5 +149,5 @@ cython_debug/
 /resnet50-pre.pth
 /resNet50.pth
 /*辣椒/
-/yolov5/runs/
 /yolov5/*.pt
+/yolov5/runs/
