@@ -19,7 +19,8 @@ def main():
          transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
     # load image
-    test_path = os.path.join(DATA_DIR, 'test-handcrop')
+    # test_path = os.path.join(DATA_DIR, 'test-handcrop')
+    test_path = '/media/hexiang/4TDisk/python/pyProject/Image-recognition-of-leafy-vegetable-pests-and-diseases/yolov5/runs/detect/test300/crops/fruit'
     img_path_list = os.listdir(test_path)
 
     print(img_path_list)
@@ -67,7 +68,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'best43.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'tmp.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':
