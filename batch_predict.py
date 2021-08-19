@@ -10,17 +10,18 @@ import pandas as pd
 
 
 def main():
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    # device = torch.device("cpu")
+    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     data_transform = transforms.Compose(
-        [transforms.Resize(RESIZE_SIZE),
-         transforms.CenterCrop(INPUT_SIZE),
+        [transforms.Resize(INPUT_SIZE),
+         # transforms.CenterCrop(INPUT_SIZE),
          transforms.ToTensor(),
          transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
     # load image
-    # test_path = os.path.join(DATA_DIR, 'test-handcrop')
-    test_path = '/media/hexiang/4TDisk/python/pyProject/Image-recognition-of-leafy-vegetable-pests-and-diseases/yolov5/runs/detect/test300/crops/fruit'
+    test_path = os.path.join(DATA_DIR, 'test210-detected-hsy')
+    # test_path = os.path.join(DATA_DIR, 'test210-origin')
+    # test_path = '/media/hexiang/4TDisk/python/pyProject/Image-recognition-of-leafy-vegetable-pests-and-diseases/yolov5/runs/detect/test300/crops/fruit'
     img_path_list = os.listdir(test_path)
 
     print(img_path_list)
@@ -47,7 +48,8 @@ def main():
 
     # load model weights
     # weights_path = "./resNet50.pth"
-    weights_path = os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'best43.pth')
+    weights_path = os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70.pth')
+    # weights_path = os.path.join(SAVE_DIR, 'epoch30.pth')
     assert os.path.exists(weights_path), "file: '{}' dose not exist.".format(weights_path)
     model.load_state_dict(torch.load(weights_path, map_location=device))
 
@@ -68,7 +70,7 @@ def main():
             result['category_id'].append(class_indict[str(cla.numpy())])
 
         dataframe = pd.DataFrame(result)
-        dataframe.to_csv(os.path.join(SAVE_DIR, 'Resnet50_epoch70_20210816_151629_handcropAllData_BSize8', 'tmp.csv'), index=False, sep=',')
+        dataframe.to_csv(os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70-detected.csv'), index=False, sep=',')
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ from matplotlib.pyplot import MultipleLocator
 
 def main():
     epochs = EPOCH
-    msg = 'detectedALL_BSize32'
+    msg = 'detectedhsy_BSize32'
     save_dir = os.path.join(SAVE_DIR,
                             'Resnet50' + '_' + 'Epoch' + str(epochs) + '_' + datetime.now().strftime(
                                 '%Y%m%d_%H%M%S') + '_' + msg)
@@ -49,21 +49,21 @@ def main():
     data_transform = {
         "train": transforms.Compose([
             # transforms.RandomResizedCrop(224),
-            transforms.Resize(224),
+            transforms.Resize(INPUT_SIZE),
             # transforms.RandomCrop(224),
             # transforms.RandomRotation(30),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
         "val": transforms.Compose([
-            transforms.Resize(224),
+            transforms.Resize(INPUT_SIZE),
             # transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])}
 
     image_path = DATA_DIR
     assert os.path.exists(image_path), "{} path does not exist.".format(image_path)
-    train_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train-detected"),
+    train_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train-detected-hsy-19"),
                                          transform=data_transform["train"])
     train_num = len(train_dataset)
 
@@ -82,7 +82,7 @@ def main():
                                                batch_size=batch_size, shuffle=True,
                                                num_workers=nw)
 
-    validate_dataset = datasets.ImageFolder(root=os.path.join(image_path, "train-detected"),
+    validate_dataset = datasets.ImageFolder(root=os.path.join(image_path, "val-detected-hsy-19"),
                                             transform=data_transform["val"])
     val_num = len(validate_dataset)
     validate_loader = torch.utils.data.DataLoader(validate_dataset,
@@ -193,7 +193,7 @@ def main():
         if (epoch + 1) % SAVE_FREQ == 0:
             torch.save(net.state_dict(), os.path.join(save_dir, 'epoch' + str(epoch + 1) + '.pth'))
 
-    _print(all_train_losses, all_valid_losses, all_train_acc, all_valid_acc, save_dir)
+    print(all_train_losses, all_valid_losses, all_train_acc, all_valid_acc, save_dir)
     showResult(all_train_losses, all_valid_losses, all_train_acc, all_valid_acc, save_dir)
     _print('Finished Training')
 

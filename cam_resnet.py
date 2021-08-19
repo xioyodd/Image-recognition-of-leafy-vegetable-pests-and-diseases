@@ -29,7 +29,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--use-cuda', action='store_true', default=True,
                         help='Use NVIDIA GPU acceleration')
-    parser.add_argument('--image-path', type=str, default=os.path.join(DATA_DIR, '0a8d491e-b40d-4895-8490-89c9d7a7e83b.jpg'),
+    parser.add_argument('--image-path', type=str, default=os.path.join(DATA_DIR, '0194dd14-5be1-4855-84e2-dbbdf5fcbb2d.jpg'),
                         help='Input image path')
     parser.add_argument('--aug_smooth', action='store_true',
                         help='Apply test time augmentation to smooth the CAM')

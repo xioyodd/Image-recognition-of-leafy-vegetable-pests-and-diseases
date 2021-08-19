@@ -15,25 +15,25 @@ def main():
     random.seed(SEED)
 
     # 将数据集中10%的数据划分到验证集中
-    split_rate = 0.2
+    split_rate = 0.1
 
     # 数据根目录
     data_root = DATA_DIR
-    origin_data_path = os.path.join(data_root, "train-handcrop")
+    origin_data_path = os.path.join(data_root, "train-all-detected-hsy")
     assert os.path.exists(origin_data_path), "path '{}' does not exist.".format(origin_data_path)
 
     data_class = [cla for cla in os.listdir(origin_data_path)
                   if os.path.isdir(os.path.join(origin_data_path, cla))]
 
     # 建立保存训练集的文件夹
-    train_root = os.path.join(data_root, "train-handcrop-num")
+    train_root = os.path.join(data_root, "train-detected-hsy-num")
     mk_file(train_root)
     for cla in data_class:
         # 建立每个类别对应的文件夹
         mk_file(os.path.join(train_root, cla))
 
     # 建立保存验证集的文件夹
-    val_root = os.path.join(data_root, "val-handcrop-num")
+    val_root = os.path.join(data_root, "val-detected-hsy-num")
     mk_file(val_root)
     for cla in data_class:
         # 建立每个类别对应的文件夹
