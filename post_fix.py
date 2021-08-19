@@ -7,13 +7,13 @@ from config import *
 import os
 
 def main():
-    csvFilePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch200_20210818_171826_detected4259_BSize32', 'best98.csv')
-    savePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch200_20210818_171826_detected4259_BSize32', 'best98-fixed.csv')
-    # csvFilePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70-origin.csv')
-    # savePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70-origin-fixed.csv')
+    # csvFilePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch200_20210818_171826_detected4259_BSize32', 'best98.csv')
+    # savePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch200_20210818_171826_detected4259_BSize32', 'best98-fixed.csv')
+    csvFilePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70-detected.csv')
+    savePath = os.path.join(SAVE_DIR, 'Resnet50_Epoch120_20210819_190502_detectedhsy_BSize32', 'best70-detected-fixed.csv')
     allDataPath = os.path.join(DATA_DIR, 'test210-origin')
 
-    allDataList = os.listdir(allDataPath)
+    # allDataList = os.listdir(allDataPath)
     # print(allDataList)
     # print(len(allDataList))
     # print(len('00d5aa3e-9c60-42b3-894d-0b83727e9293'))
@@ -26,7 +26,7 @@ def main():
     # 有一个长度不对,手动做ba, 0tafwugmn0jm5jfow76q8pjnh1gklicq.jpg
     # allDataList = list(map(lambda x: x[0:length], allDataList))
     # allDataList = list(map(lambda x: x[:-4], allDataList))
-    print(allDataList)
+    # print(allDataList)
 
     csvFile = open(csvFilePath, 'r')
     reader = csv.reader(csvFile)
