@@ -142,9 +142,12 @@ cython_debug/
 /model2/
 /result/
 /data/
+/img/
 /cam.py
 /tree.txt
 /*.pth
 /*辣椒/
+/yolov5/*
 /yolov5/*.pt
 /yolov5/runs/
+/sum.*
