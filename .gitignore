@@ -151,3 +151,4 @@ cython_debug/
 /yolov5/*.pt
 /yolov5/runs/
 /sum.*
+/*.pdf
